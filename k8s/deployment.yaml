@@ -44,6 +44,7 @@ kind: Deployment
 metadata: 
   name: web
 spec: 
+  replicas: 2
   selector:
     matchLabels:
       app: web
@@ -51,6 +52,10 @@ spec:
     metadata:
       labels: 
         app: web
+      annotations:
+        prometheus.io/scape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
     spec: 
       containers:
         - name: web
@@ -79,4 +84,4 @@ spec:
   ports:
     - port: 80
       targetPort: 8080
-  type: ClusterIP
+  type: LoadBalancer
